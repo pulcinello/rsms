@@ -98,11 +98,11 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 ```
 
-`CursorLineNr` brightens the current line number, and the theme defines
-`CursorLineSign` / `CursorLineFold` so the sign and fold columns on the cursor
-line use the cursor-line tint. Use `"both"` for the full-line background,
-`"line"` for a text-only background, or `vim.opt.cursorline = false` to turn
-the cue off entirely.
+`CursorLineNr` gives the current line number the cursor-line background and a
+brighter foreground, and the theme defines `CursorLineSign` / `CursorLineFold`
+so the sign and fold columns on the cursor line use the same tint. Use
+`"both"` for the full-line background, `"line"` for a text-only background, or
+`vim.opt.cursorline = false` to turn the cue off entirely.
 
 ## Palette
 

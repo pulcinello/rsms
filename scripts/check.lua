@@ -146,6 +146,8 @@ for _, variant in ipairs({ "dark", "bright" }) do
   check(tag("Comment"), fg_of("Comment") == p.comment)
   check(tag("documentation comment"), fg_of("@comment.documentation") == p.doc)
   check(tag("LineNr"), fg_of("LineNr") == p.linenr)
+  check(tag("CursorLineNr fg"), fg_of("CursorLineNr") == p.fg)
+  check(tag("CursorLineNr bg"), bg_of("CursorLineNr") == p.cursorline)
   check(tag("CursorLineSign bg"), bg_of("CursorLineSign") == p.cursorline)
   check(tag("CursorLineFold bg"), bg_of("CursorLineFold") == p.cursorline)
   check(tag("WinSeparator"), fg_of("WinSeparator") == p.border)

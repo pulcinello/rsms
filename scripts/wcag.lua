@@ -84,6 +84,7 @@ function M.situations(variant)
 
     -- Text over background-only overlays
     { "Normal text on cursorline", p.fg, p.cursorline, "body" },
+    { "CursorLineNr on cursorline", p.fg, p.cursorline, "body" },
     { "keyword on cursorline", p.keyword, p.cursorline, "body" },
     { "function on cursorline", p.fn, p.cursorline, "body" },
     { "type on cursorline", p.type, p.cursorline, "body" },

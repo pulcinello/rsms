@@ -1,0 +1,32 @@
+# rsms dark — resolved palette (see lua/rsms/palette.lua)
+# Source: rsms/vscode-theme themes/rsms-dark-color-theme.json
+# Translucent source anchors are flattened over #121212 (#rrggbbaa alpha).
+
+# Normal
+palette = 0=#252525
+palette = 1=#f7796e
+palette = 2=#94d1b3
+palette = 3=#ffc799
+palette = 4=#75b2f0
+palette = 5=#f76ec9
+palette = 6=#71c1c1
+palette = 7=#d0d0d0
+
+# Bright
+palette = 8=#5a5a5a
+palette = 9=#f8897f
+palette = 10=#a7d9c1
+palette = 11=#ffff99
+palette = 12=#94b2d1
+palette = 13=#f888d3
+palette = 14=#8dcdcd
+palette = 15=#ffffff
+
+background = #121212
+foreground = #d0d0d0
+
+cursor-color = #f76ec9
+cursor-text = #121212
+
+selection-background = #2b4659
+selection-foreground = #ffffff

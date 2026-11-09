@@ -147,6 +147,10 @@ function M.situations(variant)
     { "GitSignsChange on bg", p.warn, p.bg, "ui" },
     { "GitSignsDelete on bg", p.danger, p.bg, "ui" },
     { "GitSignsUntracked on bg", p.info, p.bg, "ui" },
+    { "GitSignsAdd on CursorLineSign", p.ok, p.cursorline, "ui" },
+    { "GitSignsChange on CursorLineSign", p.warn, p.cursorline, "ui" },
+    { "GitSignsDelete on CursorLineSign", p.danger, p.cursorline, "ui" },
+    { "GitSignsUntracked on CursorLineSign", p.info, p.cursorline, "ui" },
     { "SpellRare undercurl sp vs bg", p.magenta, p.bg, "ui" },
 
     -- Purely decorative markers: exempt from WCAG, recorded for the record

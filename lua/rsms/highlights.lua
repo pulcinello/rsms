@@ -84,6 +84,10 @@ function M.apply(variant, config)
   link("TermCursor", "Cursor")
 
   set("CursorLine", { bg = p.cursorline })
+  -- Used by 'cursorlineopt=number' too: the sign/fold column keeps the
+  -- cursor-line cue even when the text-line background is disabled.
+  set("CursorLineSign", { bg = p.cursorline })
+  set("CursorLineFold", { bg = p.cursorline })
   link("CursorColumn", "CursorLine")
   link("ColorColumn", "CursorLine")
   set("CursorLineNr", { fg = p.fg })

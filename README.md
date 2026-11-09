@@ -88,6 +88,22 @@ A transparent background is intentionally unsupported: each variant keeps its
 source background (`#121212` / `#fdfdfc`). Passing an unknown option raises an
 error.
 
+### Cursor line style
+
+Sublime's `highlight_line` setting has a direct Neovim equivalent:
+`cursorlineopt`. For a number/sign-only cue (no full-line background):
+
+```lua
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+```
+
+`CursorLineNr` brightens the current line number, and the theme defines
+`CursorLineSign` / `CursorLineFold` so the sign and fold columns on the cursor
+line use the cursor-line tint. Use `"both"` for the full-line background,
+`"line"` for a text-only background, or `vim.opt.cursorline = false` to turn
+the cue off entirely.
+
 ## Palette
 
 Anchors are the exact source values (some carry alpha); rendered values are

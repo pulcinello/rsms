@@ -69,7 +69,7 @@ local function check_hex(label, color)
   check(label .. " is 6-digit hex", type(color) == "string" and color:match("^#%x%x%x%x%x%x$") ~= nil, tostring(color))
 end
 
--- 1. Source anchors: exact values from rsms/vscode-theme (alpha preserved).
+-- 1. Source anchors: exact values from rsms/sublime-theme (alpha preserved).
 local SOURCE = {
   dark = {
     bg = "#121212",

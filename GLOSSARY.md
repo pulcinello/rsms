@@ -5,8 +5,9 @@ vocabulary used when discussing its colors, layers, and style.
 
 ## Palette
 
-**Source theme**: The upstream VS Code/Cursor theme package
-(`rsms/vscode-theme`) whose JSON files define the anchors. Hues and decoration
+**Source theme**: The upstream Sublime Text color schemes
+(`rsms/sublime-theme`, also packaged for VS Code/Cursor as
+`rsms/vscode-theme`) whose rules define the anchors. Hues and decoration
 choices follow the source; the only deliberate deviations are WCAG-driven
 darkenings of a few bright-variant text colors, noted in `palette.lua`.
 _Avoid_: original theme, inspiration

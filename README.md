@@ -1,7 +1,9 @@
 # rsms.nvim
 
-A Neovim port of the [rsms color themes](https://github.com/rsms/vscode-theme),
-with both **rsms dark** and **rsms bright** variants.
+A Neovim port of the [rsms color themes](https://github.com/rsms/sublime-theme),
+the origin Sublime Text package, with both **rsms dark** and **rsms bright**
+variants. The same palette is also packaged for VS Code/Cursor as
+[rsms/vscode-theme](https://github.com/rsms/vscode-theme).
 
 ![color preview](assets/preview.png)
 
@@ -180,9 +182,12 @@ scripts/preview.sh                             # HTML preview + PNG (Chrome + Im
 ## Attribution
 
 The color palette and theme concept come from
-[rsms/vscode-theme](https://github.com/rsms/vscode-theme) by Rasmus Andersson,
-which is distributed under the ISC license. This Neovim port is a derived work
-and keeps the same license.
+[rsms/sublime-theme](https://github.com/rsms/sublime-theme) by Rasmus Andersson,
+the origin Sublime Text color schemes. The same palette is packaged for
+VS Code/Cursor as
+[rsms/vscode-theme](https://github.com/rsms/vscode-theme). Both are distributed
+under the ISC license. This Neovim port is a derived work and keeps the same
+license.
 
 ## License
 

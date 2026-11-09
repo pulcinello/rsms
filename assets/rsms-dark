@@ -1,5 +1,6 @@
 # rsms dark — resolved palette (see lua/rsms/palette.lua)
-# Source: rsms/vscode-theme themes/rsms-dark-color-theme.json
+# Source: rsms/sublime-theme rsms-dark.sublime-color-scheme
+# (also packaged as rsms/vscode-theme themes/rsms-dark-color-theme.json)
 # Translucent source anchors are flattened over #121212 (#rrggbbaa alpha).
 
 # Normal

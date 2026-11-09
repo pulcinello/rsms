@@ -1,8 +1,13 @@
 -- Palette for rsms.nvim.
 --
--- Source of truth: rsms/vscode-theme, themes/rsms-dark-color-theme.json and
--- themes/rsms-bright-color-theme.json. Anchors are the exact source values;
+-- Source of truth: rsms/sublime-theme, rsms-dark.sublime-color-scheme and
+-- rsms-bright.sublime-color-scheme (the origin; the same palette is packaged
+-- for VS Code as rsms/vscode-theme). Anchors are the exact source values;
 -- 8-digit hex carries CSS-style alpha (#rrggbbaa).
+--
+-- Exception: the rainbow-delimiter palette comes from the VS Code packaging
+-- (editorBracketHighlight.foreground1..6); the Sublime source uses a single
+-- bracket accent.
 --
 -- Neovim's highlight API has no alpha channel, so every translucent anchor is
 -- flattened over the variant background before use ("alpha flattening" in

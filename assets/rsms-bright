@@ -1,5 +1,6 @@
 # rsms bright — resolved palette (see lua/rsms/palette.lua)
-# Source: rsms/vscode-theme themes/rsms-bright-color-theme.json
+# Source: rsms/sublime-theme rsms-bright.sublime-color-scheme
+# (also packaged as rsms/vscode-theme themes/rsms-bright-color-theme.json)
 # Translucent source anchors are flattened over #fdfdfc (#rrggbbaa alpha).
 
 # Normal

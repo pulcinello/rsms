@@ -127,7 +127,7 @@ Terminal palettes are built from the theme anchors:
 ## Coverage
 
 Core UI and syntax, Treesitter captures, LSP semantic tokens, diagnostics,
-diff, git, marks, spelling, rainbow brackets (VS Code bracket-pair colors),
+diff, git, spelling, rainbow brackets (VS Code bracket-pair colors),
 indent-blankline, markdown, and the embedded terminal. Groups outside that
 surface fall back to Neovim's default links.
 
@@ -142,7 +142,7 @@ remedies are foreground-side.
 ```sh
 nvim --clean --headless -l scripts/check.lua   # assertions + per-tier worst case
 nvim --clean --headless -l scripts/wcag.lua    # full contrast report, both variants
-scripts/preview.sh                             # HTML preview + assets/preview.png
+scripts/preview.sh                             # HTML preview + PNG (Chrome + ImageMagick)
 ```
 
 ## Attribution

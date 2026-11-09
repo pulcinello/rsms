@@ -6,9 +6,9 @@ vocabulary used when discussing its colors, layers, and style.
 ## Palette
 
 **Source theme**: The upstream VS Code/Cursor theme package
-(`rsms/vscode-theme`) whose JSON files define the anchors. Any disagreement
-between the port and the source is resolved in favor of the source and recorded
-here.
+(`rsms/vscode-theme`) whose JSON files define the anchors. Hues and decoration
+choices follow the source; the only deliberate deviations are WCAG-driven
+darkenings of a few bright-variant text colors, noted in `palette.lua`.
 _Avoid_: original theme, inspiration
 
 **Palette anchor**: One of the exact hex values in the source `colors` and

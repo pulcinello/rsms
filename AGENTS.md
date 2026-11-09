@@ -8,7 +8,8 @@ nvim --clean --headless -l scripts/wcag.lua    # full contrast report
 scripts/preview.sh                             # HTML preview + PNG screenshot
 ```
 
-All three must pass before a palette or highlight change lands.
+`check.lua` and `wcag.lua` must pass before a palette or highlight change
+lands; re-run `preview.sh` whenever rendered colors change.
 
 ## Conventions
 

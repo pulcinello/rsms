@@ -39,7 +39,7 @@ local lua_lines = {
     .. t("fn", "tbl_extend") .. t("punct", "(") .. t("str", '"force"') .. t("punct", ",") .. " "
     .. t("const", "DEFAULTS") .. t("punct", ",") .. " " .. t("var", "opts") .. " " .. t("kw", "or")
     .. " " .. t("punct", "{}") .. t("punct", ")")),
-  line(9, "  " .. t("kc", "if") .. " " .. t("var", "opts") .. t("punct", ".") .. t("var", "depth")
+  line(9, "  " .. t("kc", "if") .. " " .. t("var", "opts") .. t("punct", ".") .. t("prop", "depth")
     .. " " .. t("op", "<=") .. " " .. t("const", "0") .. " " .. t("kc", "then"), "cursorline"),
   line(10, "    " .. t("kc", "return") .. " " .. t("punct", "{}")),
   line(11, "  " .. t("kc", "end")),
@@ -52,15 +52,15 @@ local lua_lines = {
     .. t("var", "table") .. t("punct", ".") .. t("fn", "remove") .. t("punct", "(") .. t("var", "queue")
     .. t("punct", ",") .. " " .. t("const", "1") .. t("punct", ")")),
   line(15, "    " .. t("kc", "if") .. " " .. t("kw", "not") .. " " .. t("var", "seen") .. t("punct", "[")
-    .. t("var", "node") .. t("punct", ".") .. t("var", "id") .. t("punct", "]") .. " " .. t("kc", "then")),
+    .. t("var", "node") .. t("punct", ".") .. t("prop", "id") .. t("punct", "]") .. " " .. t("kc", "then")),
   line(16, "      " .. t("var", "seen") .. t("punct", "[") .. t("var", "node") .. t("punct", ".")
-    .. t("var", "id") .. t("punct", "]") .. " " .. t("punct", "=") .. " " .. t("const", "true")),
+    .. t("prop", "id") .. t("punct", "]") .. " " .. t("punct", "=") .. " " .. t("const", "true")),
   line(17, "      " .. t("kc", "for") .. " " .. t("punct", "_") .. t("punct", ",") .. " " .. t("var", "edge")
     .. " " .. t("kw", "in") .. " " .. t("fn", "ipairs") .. t("punct", "(") .. t("var", "node")
-    .. t("punct", ".") .. t("var", "edges") .. t("punct", ")") .. " " .. t("kc", "do")),
+    .. t("punct", ".") .. t("prop", "edges") .. t("punct", ")") .. " " .. t("kc", "do")),
   line(18, "        " .. t("var", "queue") .. t("punct", "[") .. t("op", "#") .. t("var", "queue")
     .. " " .. t("op", "+") .. " " .. t("const", "1") .. t("punct", "]") .. " " .. t("punct", "=") .. " "
-    .. t("var", "edge") .. t("punct", ".") .. t("var", "target")),
+    .. t("var", "edge") .. t("punct", ".") .. t("prop", "target")),
   line(19, "      " .. t("kc", "end")),
   line(20, "    " .. t("kc", "end")),
   line(21, "  " .. t("kc", "end")),
@@ -85,7 +85,7 @@ local ts_lines = {
   line(7, t("kw", "export") .. " " .. t("kw", "class") .. " " .. t("type", "BoundedCache")
     .. t("punct", "<") .. t("type", "T") .. t("punct", ">") .. " " .. t("kw", "implements") .. " "
     .. t("type", "Cache") .. t("punct", "<") .. t("type", "T") .. t("punct", ">") .. " " .. t("punct", "{")),
-  line(8, "  " .. t("kw", "private") .. " " .. t("var", "entries") .. " " .. t("punct", "=") .. " "
+  line(8, "  " .. t("kw", "private") .. " " .. t("prop", "entries") .. " " .. t("punct", "=") .. " "
     .. t("kw", "new") .. " " .. t("type", "Map") .. t("punct", "<") .. t("tb", "string")
     .. t("punct", ",") .. " " .. t("type", "T") .. t("punct", ">()")),
   line(9, ""),
@@ -97,23 +97,23 @@ local ts_lines = {
   line(12, "  " .. t("fn", "get") .. t("punct", "(") .. t("var", "key") .. t("punct", ":") .. " "
     .. t("tb", "string") .. t("punct", "):") .. " " .. t("type", "T") .. " " .. t("op", "|") .. " "
     .. t("tb", "undefined") .. " " .. t("punct", "{")),
-  line(13, "    " .. t("kc", "return") .. " " .. t("var", "this") .. t("punct", ".") .. t("var", "entries")
+  line(13, "    " .. t("kc", "return") .. " " .. t("var", "this") .. t("punct", ".") .. t("prop", "entries")
     .. t("punct", ".") .. t("fn", "get") .. t("punct", "(") .. t("var", "key") .. t("punct", ")")),
   line(14, "  " .. t("punct", "}")),
   line(15, ""),
   line(16, "  " .. t("fn", "set") .. t("punct", "(") .. t("var", "key") .. t("punct", ":") .. " "
     .. t("tb", "string") .. t("punct", ",") .. " " .. t("var", "value") .. t("punct", ":") .. " "
     .. t("type", "T") .. t("punct", "):") .. " " .. t("tb", "void") .. " " .. t("punct", "{")),
-  line(17, "    " .. t("kc", "if") .. " " .. t("var", "this") .. t("punct", ".") .. t("var", "entries")
-    .. t("punct", ".") .. t("var", "size") .. " " .. t("op", ">=") .. " " .. t("var", "this")
-    .. t("punct", ".") .. t("var", "limit") .. " " .. t("punct", "{")),
+  line(17, "    " .. t("kc", "if") .. " " .. t("var", "this") .. t("punct", ".") .. t("prop", "entries")
+    .. t("punct", ".") .. t("prop", "size") .. " " .. t("op", ">=") .. " " .. t("var", "this")
+    .. t("punct", ".") .. t("prop", "limit") .. " " .. t("punct", "{")),
   line(18, "      " .. t("kw", "const") .. " " .. t("var", "oldest") .. " " .. t("punct", "=") .. " "
-    .. t("var", "this") .. t("punct", ".") .. t("var", "entries") .. t("punct", ".")
+    .. t("var", "this") .. t("punct", ".") .. t("prop", "entries") .. t("punct", ".")
     .. t("fn", "keys") .. t("punct", "().") .. t("fn", "next") .. t("punct", "().") .. t("var", "value")),
-  line(19, "      " .. t("var", "this") .. t("punct", ".") .. t("var", "entries") .. t("punct", ".")
+  line(19, "      " .. t("var", "this") .. t("punct", ".") .. t("prop", "entries") .. t("punct", ".")
     .. t("fn", "delete") .. t("punct", "(") .. t("var", "oldest") .. t("punct", ")")),
   line(20, "    " .. t("punct", "}")),
-  line(21, "    " .. t("var", "this") .. t("punct", ".") .. t("var", "entries") .. t("punct", ".")
+  line(21, "    " .. t("var", "this") .. t("punct", ".") .. t("prop", "entries") .. t("punct", ".")
     .. t("fn", "set") .. t("punct", "(") .. t("var", "key") .. t("punct", ",") .. " " .. t("var", "value")
     .. t("punct", ")")),
   line(22, "  " .. t("punct", "}")),
@@ -142,7 +142,8 @@ local function css(id, p)
   --bg: %(bg)s; --fg: %(fg)s; --comment: %(comment)s; --muted: %(muted)s;
   --keyword: %(keyword)s; --kcontrol: %(kcontrol)s; --fn: %(fn)s;
   --type: %(type)s; --tbuiltin: %(tbuiltin)s; --string: %(string)s;
-  --constant: %(constant)s; --variable: %(variable)s; --op: %(operator)s;
+  --constant: %(constant)s; --variable: %(variable)s; --property: %(property)s;
+  --op: %(operator)s;
   --cursorline: %(cursorline)s; --linenr: %(linenr)s; --border: %(border)s;
   --selection: %(selection)s; --selection-fg: %(selection_fg)s;
   --heading-bg: %(heading_bg)s; --markup-bg: %(markup_bg)s;
@@ -152,7 +153,8 @@ local function css(id, p)
       id = id, bg = p.bg, fg = p.fg, comment = p.comment, muted = p.muted,
       keyword = p.keyword, kcontrol = p.keyword_control, fn = p.fn,
       type = p.type, tbuiltin = p.type_builtin, string = p.string,
-      constant = p.constant, variable = p.variable, operator = p.operator,
+      constant = p.constant, variable = p.variable, property = p.property,
+      operator = p.operator,
       cursorline = p.cursorline, linenr = p.linenr, border = p.border,
       selection = p.selection, selection_fg = p.selection_fg,
       heading_bg = p.heading_bg, markup_bg = p.markup_bg, bullet = p.bullet,
@@ -192,7 +194,8 @@ local tpl = [[<!doctype html>
   .kc { color: var(--kcontrol); } .fn { color: var(--fn); font-weight: bold; }
   .type { color: var(--type); font-weight: bold; } .tb { color: var(--tbuiltin); }
   .str { color: var(--string); } .const { color: var(--constant); }
-  .var { color: var(--variable); } .op { color: var(--op); }
+  .var { color: var(--variable); } .prop { color: var(--property); }
+  .op { color: var(--op); }
   .punct { color: var(--muted); }
   .heading { color: var(--fn); font-weight: bold; }
   .heading2 { color: var(--fn); font-weight: bold; }

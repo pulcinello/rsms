@@ -79,6 +79,7 @@ local function build(a)
   p.cursor_text = flatten(a.cursor_text, bg)
   p.selection = flatten(a.selection, bg)
   p.selection_fg = flatten(a.selection_fg, bg)
+  p.inactive_selection = flatten(a.inactive_selection, bg)
   p.incsearch = flatten(a.incsearch, bg)
   p.markup_bg = flatten(a.markup_bg, bg)
   p.heading_bg = flatten(a.heading_bg, bg)
@@ -86,6 +87,11 @@ local function build(a)
   p.find = a.find
   p.find_fg = a.find_fg
   p.operator = a.operator and flatten(a.operator, bg) or p.keyword
+  p.property = flatten(a.property, bg)
+  p.tag_delimiter = flatten(a.tag_delimiter, bg)
+  p.add_fg = flatten(a.add_fg, bg)
+  p.del_fg = flatten(a.del_fg, bg)
+  p.spell_bad = flatten(a.misspelling or a.danger, bg)
   p.bracket = a.bracket
 
   -- Secondary text and UI chrome. WCAG floors are enforced by
@@ -105,7 +111,9 @@ local function build(a)
     p.diff_change = blend(a.warn, bg, 0.08)
     p.diff_delete = blend(a.danger, bg, 0.12)
     p.diff_text = blend(a.info, bg, 0.18)
-    p.matchparen_bg = blend(a.cursor, bg, 0.18)
+    -- LSP references: a faint selection-hue tint over the darkened cursorline
+    -- (kept opaque, so body/secondary text still clears WCAG).
+    p.reference = blend(p.selection, p.cursorline, 0.20)
 
     p.regexp = p.string
     p.regexp_bg = flatten(a.regexp_bg, bg)
@@ -121,7 +129,7 @@ local function build(a)
     p.diff_delete = flatten(a.diff_delete, bg)
     p.diff_change = blend(a.find, bg, 0.16)
     p.diff_text = blend(a.find, bg, 0.30)
-    p.matchparen_bg = flatten(a.matchparen, bg)
+    p.reference = blend(p.selection, p.bg, 0.55)
 
     -- Source hues that are legible as decoration but not as body text on the
     -- light background are darkened derived shades.
@@ -179,6 +187,7 @@ local dark = {
   cursor_text = "#121212",
   selection = "#66c2ff4c",
   selection_fg = "#ffffff",
+  inactive_selection = "#b3b3b333", -- hsl(0,0%,70%) alpha 0.2
   linenr_alpha = 0.42, -- source #ffffff4c (0.30) misses 3:1
   border_alpha = 0.46, -- derived; 3:1 non-text floor
   nontext_alpha = 0.16,
@@ -195,11 +204,16 @@ local dark = {
   constant = "#94d1b3",
   variable = "#6c9380",
   annotation = "#6c9380",
+  property = "#6c9380",
   tag = "#ffdbbd",
+  tag_delimiter = "#ffffff66",
   attribute = "#ffffffcc",
   doc = "#ffffff59",
 
   danger = "#f7796e",
+  misspelling = "#ff5b4d", -- hsl(5,100%,65%), the source `misspelling`
+  add_fg = "#9efacc", -- markup.inserted
+  del_fg = "#e48981", -- markup.deleted
   warn = "#ffff99",
   info = "#75b2f0",
   hint = "#71c1c1",
@@ -228,6 +242,7 @@ local bright = {
   cursor_text = "#ffffff",
   selection = "#a8dcff80",
   selection_fg = "#000000",
+  inactive_selection = "#a8dcff40", -- blue4 at the source inactive alpha
   cursorline = "#ffff004f",
   statusline = "#dddddd",
   linenr_alpha = 0.45, -- source #cccccc misses 3:1
@@ -246,11 +261,15 @@ local bright = {
   constant = "#750054",
   variable = "#000000",
   annotation = "#422100ba",
+  property = "#666666", -- grey2, `constant.other.object.key`
   tag = "#66559b",
+  tag_delimiter = "#66559b", -- meta.tag is purple in the bright source
   attribute = "#333333",
   doc = "#333333",
 
   danger = "#990000",
+  add_fg = "#052e0e", -- markup.inserted
+  del_fg = "#544645", -- markup.deleted
   warn = "#aa8844", -- bracket anchor; darkened for text use
   info = "#0043a8",
   hint = "#71c1c1", -- bracket anchor; darkened for text use
@@ -266,7 +285,6 @@ local bright = {
   indent = "#0000000f",
   bullet = "#0043a8",
 
-  matchparen = "#ffff0033",
   diff_add = "#dafbe1",
   diff_delete = "#fce6e3",
 

@@ -28,6 +28,7 @@ M.DECORATIONS = {
     ["@markup.heading.5"] = true,
     ["@markup.heading.6"] = true,
     ["@markup.strong"] = true,
+    ["MatchParen"] = true,
     ["@markup.list"] = true,
     ["@text.title"] = true,
     ["@text.strong"] = true,
@@ -37,7 +38,6 @@ M.DECORATIONS = {
     ["@text.emphasis"] = true,
   },
   underline = {
-    ["MatchParen"] = true,
     ["Underlined"] = true,
   },
   strikethrough = {
@@ -95,14 +95,16 @@ function M.apply(variant, config)
   set("Folded", { fg = p.comment, bg = p.cursorline })
 
   set("Visual", { fg = p.selection_fg, bg = p.selection })
-  link("VisualNOS", "Visual")
+  -- "Not Owning the Selection": the source's quieter inactive selection.
+  set("VisualNOS", { fg = p.selection_fg, bg = p.inactive_selection })
+  link("VisualNC", "VisualNOS")
 
   -- Find-match colors are exact source UI anchors (yellow on black).
   set("Search", { fg = p.find_fg, bg = p.find })
   set("IncSearch", { fg = p.find_fg, bg = p.incsearch })
   link("CurSearch", "IncSearch")
   link("Substitute", "IncSearch")
-  set("MatchParen", { bg = p.matchparen_bg, underline = true, sp = p.cursor })
+  set("MatchParen", { fg = p.cursor, bold = true })
 
   set("Conceal", { fg = p.comment })
   set("NonText", { fg = p.nontext })
@@ -142,9 +144,23 @@ function M.apply(variant, config)
   set("DiffChange", { bg = p.diff_change })
   set("DiffDelete", { bg = p.diff_delete })
   set("DiffText", { bg = p.diff_text })
-  set("Added", { fg = p.string, bg = p.diff_add })
+  -- The source's inserted/deleted text hues (lighter/darker than the
+  -- syntax string red/green) pair with the tinted line backgrounds.
+  set("Added", { fg = p.add_fg, bg = p.diff_add })
   set("Changed", { fg = p.constant, bg = p.diff_change })
-  set("Removed", { fg = p.danger, bg = p.diff_delete })
+  set("Removed", { fg = p.del_fg, bg = p.diff_delete })
+
+  -- Legacy vimdiff / :diff groups.
+  set("diffAdded", { fg = p.add_fg })
+  set("diffRemoved", { fg = p.del_fg })
+  set("diffChanged", { fg = p.warn })
+  set("diffLine", { fg = p.comment })
+  set("diffFile", { fg = p.info })
+  set("diffIndexLine", { fg = p.comment })
+  set("diffOldFile", { fg = p.danger })
+  set("diffNewFile", { fg = p.ok })
+  set("diffSubname", { fg = p.type_builtin })
+  set("diffNoEOL", { fg = p.comment })
 
   ----------------------------------------------------------------
   -- Diagnostics (semantic scene: hue carries meaning)
@@ -174,6 +190,13 @@ function M.apply(variant, config)
 
   set("DiagnosticDeprecated", { fg = p.comment })
   set("DiagnosticUnnecessary", { fg = p.comment })
+
+  -- Spelling: the source's `misspelling` hue for bad words; the remaining
+  -- classes are Neovim conventions routed to the semantic hues.
+  set("SpellBad", { undercurl = true, sp = p.spell_bad })
+  set("SpellCap", { undercurl = true, sp = p.info })
+  set("SpellRare", { undercurl = true, sp = p.magenta })
+  set("SpellLocal", { undercurl = true, sp = p.hint })
 
   ----------------------------------------------------------------
   -- Legacy syntax: same roles as Treesitter below
@@ -205,7 +228,7 @@ function M.apply(variant, config)
   link("PreCondit", "PreProc")
 
   set("Type", { fg = p.type, bold = true })
-  set("StorageClass", { fg = p.type_builtin })
+  set("StorageClass", { fg = p.keyword })
   link("Structure", "Type")
   link("Typedef", "Type")
 
@@ -221,7 +244,8 @@ function M.apply(variant, config)
   set("Italic", {})
   set("Underlined", { fg = p.type, underline = true })
   set("Ignore", { fg = p.nontext })
-  set("Error", { fg = p.danger })
+  -- invalid.illegal in the source is a chip: foreground on the red anchor.
+  set("Error", { fg = p.bg, bg = p.danger })
   set("Todo", { fg = p.bg, bg = p.info })
 
   ----------------------------------------------------------------
@@ -258,8 +282,8 @@ function M.apply(variant, config)
   set("@variable.builtin", { fg = p.keyword_meta })
   set("@variable.parameter", { fg = p.variable })
   set("@variable.parameter.builtin", { fg = p.keyword_meta })
-  set("@variable.member", { fg = p.variable })
-  set("@property", { fg = p.variable })
+  set("@variable.member", { fg = p.property })
+  set("@property", { fg = p.property })
 
   set("@function", { fg = p.fn, bold = true })
   set("@function.builtin", { fg = p.fn })
@@ -272,8 +296,8 @@ function M.apply(variant, config)
   set("@type", { fg = p.type, bold = true })
   set("@type.builtin", { fg = p.type_builtin })
   set("@type.definition", { fg = p.type, bold = true })
-  set("@type.qualifier", { fg = p.type_builtin })
-  set("@storageclass", { fg = p.type_builtin })
+  set("@type.qualifier", { fg = p.keyword })
+  set("@storageclass", { fg = p.keyword })
   set("@attribute", { fg = p.annotation })
   set("@attribute.builtin", { fg = p.annotation })
 
@@ -312,7 +336,7 @@ function M.apply(variant, config)
   set("@tag", { fg = p.tag })
   link("@tag.builtin", "@tag")
   set("@tag.attribute", { fg = p.attribute })
-  set("@tag.delimiter", { fg = p.muted })
+  set("@tag.delimiter", { fg = p.tag_delimiter })
 
   ----------------------------------------------------------------
   -- Markup (markdown, help, text)
@@ -352,9 +376,9 @@ function M.apply(variant, config)
   ----------------------------------------------------------------
   -- Diff captures
   ----------------------------------------------------------------
-  set("@diff.plus", { fg = p.string })
-  set("@diff.minus", { fg = p.danger })
-  set("@diff.delta", { fg = p.warn })
+  set("@diff.plus", { fg = p.add_fg })
+  set("@diff.minus", { fg = p.del_fg })
+  set("@diff.delta", { fg = p.hint })
 
   ----------------------------------------------------------------
   -- LSP semantic tokens: routed back to the same syntax roles
@@ -384,12 +408,13 @@ function M.apply(variant, config)
   set("@lsp.mod.deprecated", { fg = p.comment })
   set("@lsp.mod.unnecessary", { fg = p.comment })
   link("@lsp.typemod.variable.readonly", "@constant")
+  link("@lsp.typemod.property.readonly", "@constant")
 
-  set("LspReferenceText", { bg = p.cursorline })
-  set("LspReferenceRead", { bg = p.cursorline })
-  set("LspReferenceWrite", { bg = p.cursorline })
+  set("LspReferenceText", { bg = p.reference })
+  set("LspReferenceRead", { bg = p.reference })
+  set("LspReferenceWrite", { bg = p.reference })
   set("LspCodeLens", { fg = p.comment })
-  set("LspSignatureActiveParameter", { bg = p.matchparen_bg })
+  set("LspSignatureActiveParameter", { bg = p.reference })
   link("LspInfoBorder", "FloatBorder")
 
   ----------------------------------------------------------------
@@ -409,6 +434,39 @@ function M.apply(variant, config)
   set("IblIndent", { fg = p.indent })
   set("IblWhitespace", { fg = p.indent })
   set("IblScope", { fg = p.border })
+
+  -- Source line_diff_added/modified/deleted semantics, routed through the
+  -- diagnostic hues that already clear WCAG on both backgrounds.
+  set("GitSignsAdd", { fg = p.ok })
+  set("GitSignsChange", { fg = p.warn })
+  set("GitSignsDelete", { fg = p.danger })
+  set("GitSignsTopdelete", { fg = p.danger })
+  set("GitSignsChangedelete", { fg = p.warn })
+  set("GitSignsUntracked", { fg = p.info })
+  link("GitSignsAddNr", "GitSignsAdd")
+  link("GitSignsChangeNr", "GitSignsChange")
+  link("GitSignsDeleteNr", "GitSignsDelete")
+  link("GitSignsTopdeleteNr", "GitSignsTopdelete")
+  link("GitSignsChangedeleteNr", "GitSignsChangedelete")
+  link("GitSignsUntrackedNr", "GitSignsUntracked")
+  set("GitSignsAddLn", { bg = p.diff_add })
+  set("GitSignsChangeLn", { bg = p.diff_change })
+  set("GitSignsDeleteLn", { bg = p.diff_delete })
+  set("GitSignsCurrentLineBlame", { fg = p.comment })
+
+  link("GitGutterAdd", "GitSignsAdd")
+  link("GitGutterChange", "GitSignsChange")
+  link("GitGutterDelete", "GitSignsDelete")
+  link("GitGutterAddLine", "GitSignsAddLn")
+  link("GitGutterChangeLine", "GitSignsChangeLn")
+  link("GitGutterDeleteLine", "GitSignsDeleteLn")
+
+  link("MiniDiffSignAdd", "GitSignsAdd")
+  link("MiniDiffSignChange", "GitSignsChange")
+  link("MiniDiffSignDelete", "GitSignsDelete")
+  set("MiniDiffOverAdd", { bg = p.diff_add })
+  set("MiniDiffOverChange", { bg = p.diff_change })
+  set("MiniDiffOverDelete", { bg = p.diff_delete })
 
   ----------------------------------------------------------------
   -- Embedded terminal: resolved source anchors

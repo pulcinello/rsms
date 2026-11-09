@@ -41,6 +41,14 @@ local function attr_of(group, attr)
   return vim.api.nvim_get_hl(0, { name = group, link = false })[attr] == true
 end
 
+local function sp_of(group)
+  local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+  if hl.sp then
+    return string.format("#%06x", hl.sp)
+  end
+  return nil
+end
+
 local function read_assets(variant)
   local out = { palette = {} }
   for line in io.lines(root .. "/assets/rsms-" .. variant) do
@@ -69,10 +77,16 @@ local SOURCE = {
     comment = "#ffffff59",
     cursor = "#f76ec9",
     selection = "#66c2ff4c",
+    inactive_selection = "#b3b3b333",
     keyword = "#94b2d1",
     string = "#94d1b3",
     constant = "#94d1b3",
     type = "#ffffff",
+    property = "#6c9380",
+    tag_delimiter = "#ffffff66",
+    misspelling = "#ff5b4d",
+    add_fg = "#9efacc",
+    del_fg = "#e48981",
   },
   bright = {
     bg = "#fdfdfc",
@@ -80,9 +94,14 @@ local SOURCE = {
     comment = "#00000078",
     cursor = "#0044ff",
     selection = "#a8dcff80",
+    inactive_selection = "#a8dcff40",
     string = "#116432",
     constant = "#750054",
     type = "#0043a8",
+    property = "#666666",
+    tag_delimiter = "#66559b",
+    add_fg = "#052e0e",
+    del_fg = "#544645",
   },
 }
 for variant, anchors in pairs(SOURCE) do
@@ -145,18 +164,30 @@ for _, variant in ipairs({ "dark", "bright" }) do
   check(tag("@function bold"), attr_of("@function", "bold"))
   check(tag("@function.call not bold"), not attr_of("@function.call", "bold"))
   check(tag("String"), fg_of("String") == p.string)
+  check(tag("string escape"), fg_of("@string.escape") == p.string)
   check(tag("Constant"), fg_of("Constant") == p.constant)
   check(tag("Type fg"), fg_of("Type") == p.type)
   check(tag("Type bold"), attr_of("Type", "bold"))
   check(tag("@type.builtin"), fg_of("@type.builtin") == p.type_builtin)
   check(tag("@type.builtin not bold"), not attr_of("@type.builtin", "bold"))
   check(tag("Identifier"), fg_of("Identifier") == p.variable)
+  check(tag("property"), fg_of("@property") == p.property)
+  check(tag("variable.member"), fg_of("@variable.member") == p.property)
   check(tag("Operator"), fg_of("Operator") == p.operator)
   check(tag("Tag"), fg_of("Tag") == p.tag)
+  check(tag("tag delimiter"), fg_of("@tag.delimiter") == p.tag_delimiter)
+  check(tag("storageclass"), fg_of("@storageclass") == p.keyword)
+  check(tag("type qualifier"), fg_of("@type.qualifier") == p.keyword)
+  check(tag("legacy StorageClass"), fg_of("StorageClass") == p.keyword)
   check(tag("Search fg"), fg_of("Search") == p.find_fg)
   check(tag("Search bg"), bg_of("Search") == p.find)
   check(tag("Visual fg"), fg_of("Visual") == p.selection_fg)
   check(tag("Visual bg"), bg_of("Visual") == p.selection)
+  check(tag("VisualNOS fg"), fg_of("VisualNOS") == p.selection_fg)
+  check(tag("VisualNOS bg"), bg_of("VisualNOS") == p.inactive_selection)
+  check(tag("MatchParen fg"), fg_of("MatchParen") == p.cursor)
+  check(tag("MatchParen bold"), attr_of("MatchParen", "bold"))
+  check(tag("LSP reference bg"), bg_of("LspReferenceText") == p.reference)
   check(tag("StatusLine fg"), fg_of("StatusLine") == p.fg)
   check(tag("StatusLine bg"), bg_of("StatusLine") == p.statusline)
   check(tag("DiagnosticError"), fg_of("DiagnosticError") == p.danger)
@@ -164,9 +195,23 @@ for _, variant in ipairs({ "dark", "bright" }) do
   check(tag("DiagnosticInfo"), fg_of("DiagnosticInfo") == p.info)
   check(tag("DiagnosticHint"), fg_of("DiagnosticHint") == p.hint)
   check(tag("DiagnosticOk"), fg_of("DiagnosticOk") == p.ok)
-  check(tag("Added fg"), fg_of("Added") == p.string)
+  check(tag("SpellBad sp"), sp_of("SpellBad") == p.spell_bad)
+  check(tag("Error fg"), fg_of("Error") == p.bg)
+  check(tag("Error bg"), bg_of("Error") == p.danger)
+  check(tag("Added fg"), fg_of("Added") == p.add_fg)
   check(tag("Added bg"), bg_of("Added") == p.diff_add)
+  check(tag("Removed fg"), fg_of("Removed") == p.del_fg)
   check(tag("Removed bg"), bg_of("Removed") == p.diff_delete)
+  check(tag("@diff.plus"), fg_of("@diff.plus") == p.add_fg)
+  check(tag("@diff.minus"), fg_of("@diff.minus") == p.del_fg)
+  check(tag("@diff.delta"), fg_of("@diff.delta") == p.hint)
+  check(tag("diffOldFile"), fg_of("diffOldFile") == p.danger)
+  check(tag("diffNewFile"), fg_of("diffNewFile") == p.ok)
+  check(tag("GitSignsAdd"), fg_of("GitSignsAdd") == p.ok)
+  check(tag("GitSignsChange"), fg_of("GitSignsChange") == p.warn)
+  check(tag("GitSignsDelete"), fg_of("GitSignsDelete") == p.danger)
+  check(tag("GitSignsUntracked"), fg_of("GitSignsUntracked") == p.info)
+  check(tag("MiniDiffOverAdd bg"), bg_of("MiniDiffOverAdd") == p.diff_add)
 
   -- Terminal palette: resolved anchors, slot order preserved.
   for i = 0, 15 do

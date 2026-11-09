@@ -17,10 +17,10 @@ small set of hues carries syntax. This port keeps that division:
 - **Chrome recedes** — comments, punctuation, line numbers, separators, and
   statuslines are alpha-derived grays. The source's `#ffffff66`-style colors
   are composited over the variant background, because Neovim has no alpha.
-- **Decoration is an allowlist** — the source uses bold type and function
-  names, bold/italic markdown, and underlined links. Those stay; every other
-  inherited bold/italic/underline is stripped. `scripts/check.lua` enforces
-  the allowlist.
+- **Decoration is an allowlist** — the source uses bold type/function names
+  and bold/italic markdown. Those stay (match-paren is a bold accent too);
+  functional undercurls remain for spelling and diagnostics. Every other
+  inherited attribute is stripped, and `scripts/check.lua` enforces it.
 - **Both backgrounds** — the bright variant is a first-class port, not an
   inverted dark theme: it has its own yellows, indigos, and bracketed
   headings, just like the source.
@@ -33,10 +33,19 @@ floors as real text (line numbers, separators), the derived shade is raised.
 A handful of bright-variant hues are darkened for body text on `#fdfdfc`
 (regexp pink, warning ochre, hint teal). See `GLOSSARY.md` for the vocabulary.
 
+Deliberate deviations from the source, all accessibility-driven:
+
+- the dark cursorline is darkened instead of lightened, so comments and
+  punctuation keep their 3:1 floor over it;
+- line numbers and separators are raised to WCAG's 3:1 non-text floor;
+- bright-variant source colors that fail as body text on `#fdfdfc` are
+  darkened as described above.
+
 ## Requirements
 
 - Neovim 0.9+
 - `termguicolors` (enabled automatically when the colorscheme loads)
+- a terminal font; the source theme and `assets/preview.png` use JetBrains Mono
 
 ## Installation
 
@@ -108,7 +117,13 @@ what the highlight groups actually receive. The full terminal palettes live in
 | hint | `#71c1c1` | `#447474` |
 | ok | `#3df599` | `#2f7b0a` |
 | cursor | `#f76ec9` | `#0044ff` |
+| property | `#6c9380` | `#666666` |
+| tag delimiter | `#717171` | `#66559b` |
+| diff added text | `#9efacc` | `#052e0e` |
+| diff deleted text | `#e48981` | `#544645` |
 | selection | `#2b4659` (source `#66c2ff4c`) | `#d2ecfe` (source `#a8dcff80`) |
+| inactive selection | `#323232` | `#e8f5fd` |
+| LSP reference | `#12181b` | `#e5f4fd` |
 | cursorline | `#0c0c0c` | `#fefeae` (source `#ffff004f`) |
 | separator | `#696969` | `#8b8b8b` |
 
@@ -127,9 +142,10 @@ Terminal palettes are built from the theme anchors:
 ## Coverage
 
 Core UI and syntax, Treesitter captures, LSP semantic tokens, diagnostics,
-diff, git, spelling, rainbow brackets (VS Code bracket-pair colors),
-indent-blankline, markdown, and the embedded terminal. Groups outside that
-surface fall back to Neovim's default links.
+diff, git signs (gitsigns, vim-gitgutter, mini.diff), spelling, rainbow
+brackets (VS Code bracket-pair colors), indent-blankline, markdown, and the
+embedded terminal. Groups outside that surface fall back to Neovim's default
+links.
 
 ## Accessibility
 
